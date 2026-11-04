@@ -52,6 +52,8 @@
 (setq large-file-warning-threshold 100000000)
 
 (setq recentf-max-saved-items 200)
+;; ido-use-virtual-buffers used to turn this on implicitly.
+(recentf-mode 1)
 
 (global-set-key (kbd "C-c r") 'recentf-open)
 

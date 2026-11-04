@@ -157,33 +157,9 @@
 (use-package markdown-mode  ;; autoload
   :mode ("\\.md\\'" . markdown-mode))
 
-;; (use-package ido
-;;   :init (ido-mode (quote both))
-;;   :config
-;;   (progn
-;;     (setq ido-max-directory-size 100000)
-;;     ;; Use the current window when visiting files and buffers with ido
-;;     (setq ido-default-file-method 'selected-window)
-;;     (setq ido-default-buffer-method 'selected-window)
-;;     (setq ido-enable-flex-matching t
-;;           ido-use-virtual-buffers t
-;;           ido-auto-merge-work-directories-length nil  ; no jumping to other dirs
-;;           ) ;; automatically reopen file if we visit buffer
-;;     )
-;;   (ido-everywhere))
-
-;; This is suppose to delay loading. Cant see the effect
-(defun my-setup-ido ()
-  (remove-hook 'minibuffer-setup-hook #'my-setup-ido)
-  (ido-mode 'both)
-  (ido-everywhere 1)
-  (setq ido-max-directory-size 100000
-        ido-default-file-method 'selected-window
-        ido-default-buffer-method 'selected-window
-        ido-enable-flex-matching t
-        ido-use-virtual-buffers t
-        ido-auto-merge-work-directories-length nil))
-(add-hook 'minibuffer-setup-hook #'my-setup-ido)
+;; fido handles completing-read. smex (M-x, see settings.el) uses ido's
+;; completion UI directly, without ido-mode, so set its matching here.
+(setq ido-enable-flex-matching t)
 
 (defun basic-completion-style ()
   (setq completion-auto-wrap t
