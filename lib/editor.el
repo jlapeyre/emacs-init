@@ -69,7 +69,8 @@
 
 
 ;; With winner-mode and a small wrapper, you can make C-x 1 toggle: press it once to go
-;; single-window, press it again to restore the previous layout:
+;; single-window, press it again to restore the previous layout.
+;; winner-mode also gives C-c <left> and C-c <right> to step through window layouts.
 (winner-mode +1)
 (defun toggle-delete-other-windows ()
   "Delete other windows in frame if any, or restore previous window config."

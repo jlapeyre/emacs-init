@@ -1,8 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; Add this for emacs 25. It starts with two buffers visible rather than one,
-;; as I  prefer. Fri Sep  8 11:55:29 CEST 2017
-
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
@@ -18,16 +15,13 @@
 ;;;** Comment and uncomment region quickly
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;;;** highlight paren pairs
-(show-paren-mode 1)
-
 ;;;** Show useful info in mode line
 (line-number-mode t)
 (column-number-mode t)
 (size-indication-mode t)
 
 ;;;** enable y/n answers instead of yes or no
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 ;;;** More useful frame title.
 ;;;** Show either a file or a buffer name (if the buffer isn't visiting a file)
@@ -41,10 +35,6 @@
 
 ;;;** default binding is apropos-commands
 (global-set-key (kbd "C-h a") 'apropos)
-
-;;;** Move back and forth through window configurations with C-c left and C-c right
-;;;** winner mode. We have not yet used this
-(winner-mode 1)
 
 ; I want to try this, but which binding to choose ?
 ;(require 'ace-window)
@@ -65,10 +55,8 @@
 
 (global-set-key (kbd "C-c r") 'recentf-open)
 
-(autoload 'zap-up-to-char "misc" "\
- Kill up to, but not including ARGth occurrence of CHAR." t)
- ;; Zap upto, but not including character
- (global-set-key (kbd "M-z") 'zap-up-to-char)
+;; Zap upto, but not including character
+(global-set-key (kbd "M-z") 'zap-up-to-char)
 
 ;; Better than default dabbrev expansion.
 (global-set-key (kbd "M-/") 'hippie-expand)
@@ -91,7 +79,6 @@
  ;; select-enable-primary nil nil allows pasting primary selction or clipboard content to emacs with middle click
  ;; Can't find how to paste if this is t
  select-enable-primary nil
- save-interprogram-paste-before-kill t
  apropos-do-all t
  mouse-yank-at-point t
  require-final-newline t

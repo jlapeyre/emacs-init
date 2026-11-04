@@ -96,9 +96,6 @@
   (dolist (p my-packages)
     (unless (package-installed-p p) (package-install p))))
 
-(eval-when-compile
-  (require 'use-package))
-
 ;; Cannot put this in settings.el and load in early-init.el. Causes startup error.
 ;; Make code-quoting in info a bit less ugly.
 (with-eval-after-load 'info
@@ -131,10 +128,6 @@
   pcomplete-list
   pcomplete-expand-and-complete
   pcomplete-continue pcomplete-help)
-
-;;;* Uniquify buffer names. More useful distinction between buffers with same file name
-(use-package uniquify
-  :init (setq uniquify-buffer-name-style 'forward))
 
 ;;;* Save place in files across sessions
 ;;;

@@ -48,9 +48,6 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 
-(column-number-mode 1)
-(show-paren-mode 1)
-(size-indication-mode 1)
 ;; Dark black background, never white
 (set-face-attribute 'default nil :background "#000000")
 (set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)
