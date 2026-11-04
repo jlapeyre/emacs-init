@@ -128,15 +128,11 @@
 ;;
 ;; If you don’t edit right-to-left languages (Arabic, Hebrew, etc.), Emacs is doing a bunch
 ;; of work on every redisplay cycle for nothing. These settings tell Emacs to assume
-;; left-to-right text everywhere and skip the bidirectional parenthesis algorithm:
+;; left-to-right paragraphs everywhere and skip the bidirectional parenthesis algorithm.
 ;;
-;; The difference is hard to measure in small buffers, but in large files (think
-;; multi-thousand-line JSON or log files) it adds up. Doom enables this unconditionally and
-;; I’ve never seen anyone complain about it.
-;;
-;; GJL. According to docs, these settings should be t or nil. I don't understand.
-(setq-default bidi-display-reordering 'left-to-right
-              bidi-paragraph-direction 'left-to-right)
+;; The blog post also sets bidi-display-reordering to 'left-to-right. That variable is
+;; really t or nil, and any non-nil value means reordering stays on, so it is omitted.
+(setq-default bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 
 ;; Emacs normally fontifies (syntax-highlights) text even while you’re actively typing. This
