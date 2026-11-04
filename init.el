@@ -39,13 +39,7 @@
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
                          ))
-
-(add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
-
-;;; t is the default. Not sure what practical effect this has.
-
 
 (setq use-package-always-defer t)
 (setq use-package-verbose t)
