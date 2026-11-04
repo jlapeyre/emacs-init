@@ -25,9 +25,9 @@
 	(holiday-fixed 10 12 "Dia de Columbus")
 	(holiday-fixed 12 26 "San Esteban")))
 
-(setq hebrew-holidays nil)             ; get rid of religious holidays
-(setq islamic-holidays nil)            ; get rid of religious holidays
-(setq oriental-holidays nil)            ; get rid of Oriental holidays
-(setq bahai-holidays nil)               ; get rid of Baha'i holidays
+(setq holiday-hebrew-holidays nil)     ; get rid of religious holidays
+(setq holiday-islamic-holidays nil)    ; get rid of religious holidays
+(setq holiday-oriental-holidays nil)   ; get rid of Oriental holidays
+(setq holiday-bahai-holidays nil)      ; get rid of Baha'i holidays
 ;; mark dates of holidays in the calendar
-(setq mark-holidays-in-calendar t)
+(setq calendar-mark-holidays-flag t)
