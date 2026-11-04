@@ -336,7 +336,7 @@
 ;;          '("\\.plt$" . gnuplot-mode))
 ;;       auto-mode-alist))
 
-(dolist (pair ('("\\.plt$" . gnuplot-mode) '("\\.gp$" . gnuplot-mode)))
+(dolist (pair '(("\\.plt$" . gnuplot-mode) ("\\.gp$" . gnuplot-mode)))
   (add-to-list 'auto-mode-alist pair))
 
 (autoload 'wolfram-mode "wolfram-mode" nil t)
