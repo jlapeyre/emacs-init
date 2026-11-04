@@ -4,8 +4,6 @@
 ;;;; ORG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load (expand-file-name "lib/org_agenda_files" user-emacs-directory) 'noerror)
-
 (setq org-default-notes-file "~/git/org/refile.org")
 
 ;; (setq org-agenda-include-diary t)
