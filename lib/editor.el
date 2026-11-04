@@ -15,8 +15,7 @@
 (global-set-key (kbd "C-c h o") 'helm-occur)
 
 (use-package helm :defer t
-  :bind (("M-y" . helm-show-kill-ring)
-         ("C-h a" . helm-apropos)))
+  :bind (("M-y" . helm-show-kill-ring)))
 
 (use-package helm-descbinds :after helm
   :bind (("C-h b" . helm-descbinds)))
