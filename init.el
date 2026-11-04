@@ -113,7 +113,8 @@
 
 ;; Cannot put this in settings.el and load in early-init.el. Causes startup error.
 ;; Make code-quoting in info a bit less ugly.
-(set-face-attribute 'Info-quoted nil :family "Iosevka" :height 160)
+(with-eval-after-load 'info
+  (set-face-attribute 'Info-quoted nil :family "Iosevka" :height 160))
 
 ;; Something subtle changed in my config. Need this in order to find dyn lib
 (with-eval-after-load 'package
