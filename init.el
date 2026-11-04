@@ -367,8 +367,6 @@
 
 (init-load "my_utils")
 
-(with-eval-after-load 'bookmark+
-  (setq bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks"))
 (use-package paradox
   :defer t
 ;;  :custom (paradox-github-token t)
