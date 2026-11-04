@@ -8,6 +8,12 @@
 
 ;(set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)a
 
+;; On MacOS (macbook) the suffix dylib is somehow not listed
+;; as a module suffix. Futhermore module-file-suffix is 'dylib',
+;; but files are compiled and named .so. So they must be renamed.
+(when (boundp 'module-file-suffix)
+  (add-to-list 'load-suffixes module-file-suffix))
+
 ;; Optimize `auto-mode-alist'
 (setq auto-mode-case-fold nil)
 
