@@ -17,9 +17,11 @@
 
 ;; Following cuts benchmark-init time in half. From about 13ms to 7ms
 ;; PERF: Reduce file-name operations on `load-path'.
-;; No dynamic modules are loaded this early, so we skip .so/.dll search.
-;; Also skip .gz to avoid decompression checks.
-(setq load-suffixes '(".elc" ".el")
+;; Try .elc and .el before dynamic modules (.so, .dylib), and skip .gz.
+;; This lasts for the whole session, so the module suffixes must stay:
+;; vterm, for example, loads vterm-module.so.
+(setq load-suffixes (append '(".elc" ".el")
+                            (remove ".elc" (remove ".el" load-suffixes)))
       load-file-rep-suffixes '(""))
 
 ;; System (linux os) package manager sometimes installs autoload code
