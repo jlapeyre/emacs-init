@@ -1,4 +1,7 @@
-;; Native-compile all files asynchronously
+;;; -*- lexical-binding: t; -*-
+;; Byte-compile all files, then native-compile them asynchronously
+
+(require 'cl-lib)
 
 (setq my-all-src-files
       (let* ((src-files

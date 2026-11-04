@@ -28,6 +28,9 @@
 (setq load-suffixes (append '(".elc" ".el")
                             (remove ".elc" (remove ".el" load-suffixes)))
       load-file-rep-suffixes '(""))
+;; .elc is tried first, so load the .el instead if it is newer (e.g. after
+;; editing without recompiling, see my_compile.el).
+(setq load-prefer-newer t)
 
 ;; System (linux os) package manager sometimes installs autoload code
 ;; in /usr/share/emacs/site-lisp. All of these are loaded by default
