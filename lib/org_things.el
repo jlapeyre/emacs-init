@@ -136,13 +136,6 @@
 ;; I was using these. But I don't think I will continue
 ;; #+TODO: IGNORANT(!) KNOW1 KNOW2 KNOW3 | DONE_WITH_INTRO(!)
 
-;;;** Thunderlink. Modified from code given in FAQ on worg. We open thunderbird directly
-(defun org-thunderlink-open (path)
-  "Opens a specified email in Thunderbird with the help of the add-on ThunderLink."
-                                        ;(message-box path)
-  (start-process "myname" nil "thunderbird" "-thunderlink" (concat "thunderlink:" path)))
-(provide 'org-thunderlink)
-
 ;; BH
 ;; I use priorities A-E where tasks without a specific priority are lowest priority E.
 (setq org-enable-priority-commands t)
@@ -208,7 +201,6 @@
                                (org-clock-persistence-insinuate)
                                (require 'org-id)
                                (lambda () (require 'org-journal))
-                               (org-link-set-parameters "thunderlink" 'org-thunderlink-open)
                                (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2)) ; Change 2.0 to your preferred scale.
                                ))))
 
