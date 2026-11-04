@@ -15,10 +15,8 @@
                       deadgrep
                       dired-quick-sort
                       dumb-jump
-                      elpy
                       gcmh
                       py-vterm-interaction
-                      jedi
                       ess
                       default-text-scale
 		      djvu
@@ -27,6 +25,7 @@
                       go-mode
                       lsp-mode
                       lsp-julia
+                      lsp-pyright
                       pdf-tools ; This must be compiled. See my notes in the directory in ./elpa/
                       gmail-message-mode
                       edit-server
@@ -49,7 +48,6 @@
                       helm-descbinds
                       helpful
                       ebib
-                      image-dired+
                       lua-mode
                       markdown-mode ; How to specify which version and repo ? Looks like the order in which repos were added above.
                       math-symbol-lists
