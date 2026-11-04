@@ -292,8 +292,10 @@
 ;; viking is lightweight for viewing gps tracks
 (setq gpx-viewer (getenv "GPX_VIEWER"))
 
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
+;; On macOS the default uses `open', which goes to the system default browser.
+(unless (eq system-type 'darwin)
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "firefox"))
 
 ;; (setq auto-mode-alist
 ;;    (append
