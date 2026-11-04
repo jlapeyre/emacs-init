@@ -36,10 +36,6 @@
 ;;;** default binding is apropos-commands
 (global-set-key (kbd "C-h a") 'apropos)
 
-; I want to try this, but which binding to choose ?
-;(require 'ace-window)
-;(global-set-key (kbd "M-p") 'ace-window)
-
 ;** Change font size easily. In current buffer only
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)

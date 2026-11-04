@@ -138,7 +138,6 @@
   (save-place-mode 1))
 
 
-;;(init-load "init-dirvish")
 (init-load "init-diredp")
 
 (setq dired-guess-shell-alist-user
@@ -292,15 +291,7 @@
 
 (init-load "auctex_things")
 
-;; Loads at startup
-;; (use-package mic-paren
-;;   :init (setq paren-match-face 'highlight)
-;;   :config (paren-activate)) ; <--- load at startup
-
 ;(init-load "images")
-
-;; Uncomment to use sbcl, slime
-;; (init-load "slime_init")
 
 ;;(init-load "helm-bibtex")
 

@@ -7,13 +7,6 @@
 ;; (add-to-list 'auto-mode-alist '("\\.jl$" . julia-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.sj$" . julia-mode)) ;; Obsolete. was for Symata
 
-;; Try disabling this
-;; (use-package julia-snail
-;;   :commands julia-snail
-;;   :ensure t
-;;   :hook
-;;   (julia-mode . julia-snail-mode))
-
 (use-package julia-repl
   :defer t
   :commands (julia-repl julia-repl-mode)

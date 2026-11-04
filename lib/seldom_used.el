@@ -43,11 +43,3 @@
   ;;   (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
   (setq shell-pop-term-shell "/bin/zsh"))
 
-;; (use-package google-translate :defer t
-;;   :bind (("\C-ct" . google-translate-at-point)
-;;          ("\C-cT" . google-translate-query-translate)
-;;          ("C-c r" . google-translate-at-point-reverse)
-;;          ("C-c R" . google-translate-query-translate-reverse))
-;;   :config ;; or possibly init?
-;;   (google-translate-default-source-language "en")
-;;   (google-translate-default-target-language "es"))

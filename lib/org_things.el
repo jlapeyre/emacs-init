@@ -150,32 +150,6 @@
 ;; I set up org-mode to generate unique attachment IDs with org-id-method as follows:
 (setq org-id-method (quote uuidgen))
 
-;;;** Use hook to avoid triggering loading all of org before needed.
-;; The line (when (not (boundp 'org-man-command))... prevents each line in
-;; the hook from being run literally 20 times. The allows org-mode to load *much* faster
-;; (add-hook 'org-mode-hook
-;;           (lambda ()
-;;             ;; Load various org-related libraries
-;;             (unless (boundp 'org-man-command)
-;;               (load-library "org-man")
-;;               (load "extra-holidays.el")
-;;               (load-library "calfw")
-;;               (load-library "org-clock")
-;;               (load-library "org-timer")
-;;               (org-clock-persistence-insinuate)
-;;               (require 'org-id)
-;;               (require 'org-journal))
-
-;;             ;; Define custom link type for zathura
-;;             (org-link-set-parameters
-;;              "zathura"
-;;              :follow (lambda (path)
-;;                        (start-process "zathura" nil "zathura" path))
-;;              :complete (lambda ()
-;;                          (read-file-name "Zathura file: "))
-;;              :face 'org-link)))
-
-
 (add-hook 'org-mode-hook (lambda ()
                            (progn
                              (visual-line-mode 1)
@@ -195,16 +169,6 @@
                                (require 'org-id)
                                (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2)) ; Change 2.0 to your preferred scale.
                                ))))
-
-
-;; C-c C-j is already taken by org-goto. Can't find where or how this happens
-                                  ;; So we choose a different binding for org-journal-new-entry.
-                                  ;; But, wait, this will not do the clock-in clock-out thing that
-                                  ;; Hansen's capture template does.
-                                  ;; For the moment, we are using using capture template for journal
-                                  ;; rather than org-journal
-;; This is broken anyway, called too soon
-;;                                  (define-key org-journal-mode-map (kbd "C-c j") 'org-journal-new-entry))))
 
 
 ;; helper function for launching calfw from agenda view
@@ -288,12 +252,6 @@
   :after org
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))
-
-;; (use-package org-modern
-;;   :ensure t
-;;   :hook (org-mode . org-modern-mode)
-;;   :custom
-;;   (org-modern-table t))   ; Unicode table lines
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
