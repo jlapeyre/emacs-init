@@ -20,18 +20,6 @@
 (use-package helm-descbinds :after helm
   :bind (("C-h b" . helm-descbinds)))
 
-;; Why does setting ac-ignore-case to 't' apparently do nothing at all?
-;; Try setting this to nil, which is the opposite of what I would guess I want.
-;(setq ac-ignore-case nil) ; 'smart' doesn't really help much
-
-(use-package auto-complete
-  :defer t ; redundant
-  :commands auto-complete-mode
-  :config
-  (setq ac-ignore-case nil)
-  :bind (("C-c c" . auto-complete-mode))
-  )
-
 ;; `helpful-callable' as a drop-in replacement.
 ;; (global-set-key (kbd "C-h f") #'helpful-callable)
 ;; (global-set-key (kbd "C-h v") #'helpful-variable)
