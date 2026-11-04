@@ -1,32 +1,41 @@
-dirvish/
-dev/
-private/
-old/
+# Data written by packages, collected here by no-littering
+var/
+
+# Installed packages and compiled code
 elpa/
-auto-save-list/
-backups/
-ac-comphist.dat
-tramp
-ido.last
-smex-items
-recentf
-transient/
-tramp
-image-dired/
-url/
 eln-cache/
-elpy/
-request/
-places
 tree-sitter/
-.cache/
-typst-ts-mode/
-.python-environments/
-.lsp-session-v1
-org-clock-save.el
 *.elc
 
+# Private files, e.g. API keys
+private/
 
+# Not part of the config
+dev/
+old/
+typst-ts-mode/
 
-
+# Data files from before no-littering, or from packages it does not cover
+.cache/
+.lsp-session-v1
+.python-environments/
+ac-comphist.dat
+auto-save-list/
+backups/
+bookmarks
+dirvish/
+elpy/
+eshell/
+history
+ido.last
+image-dired/
+network-security.data
+org-clock-save.el
+places
 projects
+recentf
+request/
+smex-items
+tramp
+transient/
+url/
