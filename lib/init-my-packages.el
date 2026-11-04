@@ -56,7 +56,6 @@
                       helm
                       helm-bibtex
                       helm-descbinds
-                      helm-google
                       helm-gtags
                       helpful
                       ebib
