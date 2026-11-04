@@ -11,6 +11,5 @@
   (define-key pdf-view-mode-map (kbd "g") 'pdf-view-first-page)
   (define-key pdf-view-mode-map (kbd "d") 'pdf-view-scroll-up-or-next-page)
   (define-key pdf-view-mode-map (kbd "u") 'pdf-view-scroll-down-or-previous-page)
-  (pdf-annot-list-listed-types '(caret file highlight popup squiggly strike-out text underline))
-  (pdf-info-restart-process-p 'ask) ;; (pdf-info-restart-process-p 'ask t) ??
-  )
+  (setq pdf-annot-list-listed-types '(caret file highlight popup squiggly strike-out text underline))
+  (setq pdf-info-restart-process-p 'ask))

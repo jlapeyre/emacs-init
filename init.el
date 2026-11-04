@@ -146,7 +146,7 @@
 ;;;
 (use-package saveplace
   :init
-  (setq-default save-place-mode t))
+  (save-place-mode 1))
 
 
 ;;(init-load "init-dirvish")
@@ -367,9 +367,7 @@
 
 (use-package paradox
   :defer t
-;;  :custom (paradox-github-token t)
-  :config (paradox-github-token t)
-  )
+  :config (setq paradox-github-token t))
 
 
 (setq custom-file  (locate-user-emacs-file (format "lib/%s" ".emacs-custom.el")))

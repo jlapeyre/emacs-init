@@ -12,7 +12,6 @@
 ;;   :commands hc-highlight-trailing-whitespace hc-toggle-highlight-trailing-whitespace)
 
 
-(autoload 'helm-descbinds "helm-descbinds" t)
 (global-set-key (kbd "C-c h o") 'helm-occur)
 
 (use-package helm :defer t

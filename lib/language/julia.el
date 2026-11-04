@@ -20,9 +20,7 @@
   :init (setq vterm-max-scrollback 100000))
 
 (use-package lsp-julia
-  :defer t
-  :after (lsp-mode julia-mode)
-  :hook (julia-mode . lsp-deferred))
+  :defer t)
 
 (use-package julia-mode
   :defer t
@@ -30,7 +28,6 @@
   :mode ("\\.jl\\'" . julia-mode) ;; associate julia-mode with .jl files
 )
 
-(add-hook 'julia-mode-hook #'lsp)
 (add-hook 'julia-mode-hook
           (lambda ()
             (require 'lsp-julia)   ;; ensure client is registered

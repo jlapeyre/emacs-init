@@ -25,7 +25,7 @@
  ("\\.x?html?\\'" . default)
  ("\\.pdf\\'" . emacs)
  ("\\.pptx\\'" . "libreoffice %s")
- ("\\.gpx\\'" . (concat (gpx-viewer " %s")))))
+ ("\\.gpx\\'" . (start-process "gpx-viewer" nil gpx-viewer file))))
 
 (setq org-mobile-inbox-for-pull "~/git/from-mobile.org")  ; only used for mobile org
 (setq org-directory "~/git/org")  ; only used for mobile org
@@ -200,7 +200,6 @@
                                (load-library "org-timer") ; doesn't help
                                (org-clock-persistence-insinuate)
                                (require 'org-id)
-                               (lambda () (require 'org-journal))
                                (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2)) ; Change 2.0 to your preferred scale.
                                ))))
 
@@ -216,7 +215,7 @@
 
 
 ;; helper function for launching calfw from agenda view
-(defun gjl:calfw-open-calendar (&args)
+(defun gjl:calfw-open-calendar (&rest _)
   (interactive)
   (when (not (fboundp 'cfw:open-calendar-buffer))
     (progn (load-library "calfw") (load-library "calfw-org")))
@@ -251,7 +250,7 @@
       (quote (("t" "todo" entry (file "~/git/org/refile.org")
                "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
               ("r" "respond" entry (file "~/git/org/refile.org")
-               "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+               "* TODO Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("n" "note" entry (file "~/git/org/refile.org")
                "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
               ("l" "Journal and Link" entry (file+datetree "~/git/org/diary.org")
@@ -265,7 +264,7 @@
               ("p" "Phone call" entry (file "~/git/org/refile.org")
                "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file "~/git/org/refile.org")
-               "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+               "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: TODO\n:END:\n"))))
 
 ;; From Bernt Hansen. A crontab runs on the hour to do a git commit.
 ;; This causes several things to be loaded at runtime
