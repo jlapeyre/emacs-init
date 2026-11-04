@@ -27,9 +27,7 @@
  ("\\.pptx\\'" . "libreoffice %s")
  ("\\.gpx\\'" . (start-process "gpx-viewer" nil gpx-viewer file))))
 
-(setq org-mobile-inbox-for-pull "~/git/from-mobile.org")  ; only used for mobile org
-(setq org-directory "~/git/org")  ; only used for mobile org
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
+(setq org-directory "~/git/org")
 
 ;; Extra commands for the agenda view
 ;; Took for fucking ever to get the category filtering to work. There are a *lot* of false paths and wild goose chases
@@ -40,25 +38,20 @@
 
 (setq org-use-speed-commands t)
 
-;; disable for debugging
-(setq org-completion-use-ido t)
-
 ;; exact search and text search do not seem to work
 (setq org-link-search-must-match-exact-headline nil)
 
 ;; Cleaner view
 (setq org-hide-leading-stars t)
 
-(setq org-drawers '("PROPERTIES" "CLOCK" "LOGBOOK" "RESULTS" "RANT"))
-
 ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 9))))
 
-; Use full outline paths for refile targets - we file directly with IDO
+; Use full outline paths for refile targets
 (setq org-refile-use-outline-path t)
 
-; Targets complete directly with IDO
+; Complete the full path in one step
 (setq org-outline-path-complete-in-steps nil)
 
 
@@ -78,7 +71,7 @@
 (global-set-key (kbd "C-c C-f") 'org-capture-finalize)
 (global-set-key (kbd "<f12>") 'org-agenda)
 ;; switch among org mode buffers
-(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cb" 'org-switchb)
 (global-set-key (kbd "<S-f12>")
                 (lambda () (interactive) (find-file "~/git/org/todo.org")))
 (global-set-key (kbd "C-<f12>")
