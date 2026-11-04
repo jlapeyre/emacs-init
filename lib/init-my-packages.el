@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;;;** List packages to auto-install
 (defvar my-packages '(
 		      auctex-latexmk
