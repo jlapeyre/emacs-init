@@ -63,26 +63,12 @@
   (insert (gui-get-selection)))
 (global-set-key (kbd "C-c y") 'paste-primary-selection)
 
-;;;* Remnants of what RSM set up for me
+;;;* Exit without asking about running processes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Remnants of what RSM set up for me
+;;;; Exit without asking about running processes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun kill-processes-without-query ()
-  "Set `query-on-exit` flag to nil for all processes, so Emacs can exit without prompting."
-  (dolist (proc (process-list))
-    (set-process-query-on-exit-flag proc nil)))
-
-;; Quit emacs without prompting for killing processes, such as shell. This code added by RSM in early 90's !
-(global-set-key "\C-x\C-c" 'kill-processes-exit-emacs)
-(defun kill-processes-exit-emacs (arg)
-  "\
-Offer to save each buffer, then kill this Emacs fork.
-With prefix arg, silently save all file-visiting buffers, then kill.
-Automatically kills running subprocesses."
-  (interactive "P")
-  ;; GJL Dec 5 2020. The following function disappeared after an emacs upgrade
-  ;;  (mapcar 'process-kill-without-query (process-list))
-  ;; GJL Jan 2025. Now use this function
-  (kill-processes-without-query)
-  (save-buffers-kill-emacs arg))
+;; Quit Emacs without prompting to kill processes, such as shells.
+;; Replaces custom code written by RSM in the early 90's: a C-x C-c wrapper that
+;; cleared each process's query-on-exit flag and then called save-buffers-kill-emacs.
+(setq confirm-kill-processes nil)
