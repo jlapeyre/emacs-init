@@ -96,9 +96,7 @@
  mouse-yank-at-point t
  require-final-newline t
  visible-bell t
- ediff-window-setup-function 'ediff-setup-windows-plain
- backup-directory-alist `(("." . ,(concat user-emacs-directory
-                                          "backups"))))
+ ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (global-set-key (kbd "C-a") 'back-to-indentation)
 

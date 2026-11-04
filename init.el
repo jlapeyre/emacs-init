@@ -58,6 +58,9 @@
 ;; of user-emacs-directory. Load before anything that reads those paths.
 ;; noerror: on first startup it is not yet installed (see my-packages).
 (require 'no-littering nil t)
+;; Also put backup (foo~) and auto-save (#foo#) files under var/
+(when (fboundp 'no-littering-theme-backups)
+  (no-littering-theme-backups))
 
 ;; 2) Prevent package.el from writing package-selected-packages noninteractively.
 (with-eval-after-load 'package
