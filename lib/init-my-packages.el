@@ -37,6 +37,7 @@
                       mic-paren
                       nerd-icons
                       nerd-icons-dired
+                      no-littering ; keep package data files out of user-emacs-directory
                       org
                       org-bullets
                       org-journal

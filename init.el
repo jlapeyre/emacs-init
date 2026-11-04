@@ -54,6 +54,11 @@
 ;; (setq package-quickstart t)
 (package-initialize)
 
+;; Put files written by packages in var/ and etc/ rather than the top level
+;; of user-emacs-directory. Load before anything that reads those paths.
+;; noerror: on first startup it is not yet installed (see my-packages).
+(require 'no-littering nil t)
+
 ;; 2) Prevent package.el from writing package-selected-packages noninteractively.
 (with-eval-after-load 'package
   (advice-add 'package--save-selected-packages :override #'ignore))
