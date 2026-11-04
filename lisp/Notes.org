@@ -1,0 +1,9 @@
+* [2026-05-05 Tue] Update some libraries and remove others
+  dired+ depends on frame-cmds.el depends on frame-fns
+  - move org-man.el and muttrc-mode.el to [[/hide]]. Don't need them
+  - Upgrade frame-cmds.el  from #3138 (2018) to #3189 (2022)
+  - Upgrade frame-fns.el  from #236 (2018) to #238 (2025)
+  - Upgrade dired+ from (2018) to Version: 2025.08.21 Update #: 14075
+  - Upgrade zoom-frm from  Update #: 344 (2018) to Update #: 374 (2022)
+
+

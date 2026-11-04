@@ -1,0 +1,65 @@
+;; early-init.el --- Early initialization  -*- lexical-binding: t -*-
+
+;; Duplicates same perf opt done later.
+;; (defvar centaur--file-name-handler-alist file-name-handler-alist)
+;; (setq file-name-handler-alist nil)
+
+;; Big performance increase from this
+(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-percentage 0.6)
+(setq file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 512 1024 1024))
+            (setq gc-cons-percentage 0.15)
+            (setq file-name-handler-alist file-name-handler-alist-original)))
+
+;; Following cuts benchmark-init time in half. From about 13ms to 7ms
+;; PERF: Reduce file-name operations on `load-path'.
+;; No dynamic modules are loaded this early, so we skip .so/.dll search.
+;; Also skip .gz to avoid decompression checks.
+(setq load-suffixes '(".elc" ".el")
+      load-file-rep-suffixes '(""))
+
+;; System (linux os) package manager sometimes installs autoload code
+;; in /usr/share/emacs/site-lisp. All of these are loaded by default
+;; The following disables loading code in site-lisp. So if I want
+;; to use packages that put code in site-lisp, one option is to
+;; move or copy it to my startup files.
+(setq site-run-file nil)
+
+(defun init-load (name)
+  (let* ((file (locate-user-emacs-file (format "lib/%s" name)))
+         (t0 (current-time)))
+    (load file t t)
+    (message "init-load %s: %.3fs"
+             name (float-time (time-subtract (current-time) t0)))))
+
+;; ;;;** Inhibit the welcome buffer
+(setq inhibit-splash-screen t)
+;; Alternative ways
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+
+;; Disable GUI elements early to prevent flickering
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
+
+(column-number-mode 1)
+(show-paren-mode 1)
+(size-indication-mode 1)
+;; Dark black background, never white
+(set-face-attribute 'default nil :background "#000000")
+(set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)
+(set-face-attribute 'mode-line nil :height 120) ; Optional: Reset mode-line size
+(set-face-attribute 'mode-line-inactive nil :height 120) ; Optional: Reset inactive mode-line size
+;;;** We don't want a scratch buffer
+(kill-buffer "*scratch*")
+
+;; Looks like putting this here is even faster
+;; I moved loading settings till after package manager in order for it to show up in benchmark
+;; Statemets below apply to loading settings much earlier.
+;; Settings loaded before package manager started. So settings must not use package manager
+;; This restriction is inentional.
+;(init-load "settings")

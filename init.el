@@ -1,0 +1,377 @@
+;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
+
+;; TODO: Hope this has been fixed. Workaround no longer needed
+;; March 19, 2021
+;; https://emacs.stackexchange.com/questions/61997/how-do-i-fix-incomprehensible-buffer-error-when-running-list-packages
+;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+;(set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)a
+
+;; Optimize `auto-mode-alist'
+(setq auto-mode-case-fold nil)
+
+;; PERF: Restore file-name-handler-alist after startup.
+;; It was set to nil in early-init.el for faster startup.
+;; (unless (or (daemonp) noninteractive init-file-debug)
+;;   (add-hook 'emacs-startup-hook
+;;             (lambda ()
+;;               (setq file-name-handler-alist
+;;                     (delete-dups (append file-name-handler-alist
+;;                                          centaur--file-name-handler-alist))))
+;;             101))
+
+;;; * Set Load path
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+;;;** handwritten, or copied, code.
+(add-to-list 'load-path "~/.emacs.d/mylisp/")
+(add-to-list 'load-path "~/github/meow_king/typst-ts-mode")
+
+
+;;(init-load "profile_debug.el")
+
+;;;* Start package manager
+;; The first time we load this file, startup fails. You must do M-x list-packages
+;; Then restart emacs.
+
+(require 'package)
+(setq package-archives '(
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ))
+
+(add-to-list 'package-archives '( "jcs-elpa" . "https://jcs-emacs.github.io/jcs-elpa/packages/") t)
+
+;;; t is the default. Not sure what practical effect this has.
+
+
+(setq use-package-always-defer t)
+(setq use-package-verbose t)
+
+;; (setq package-enable-at-startup nil)
+;; (setq package-quickstart t)
+(package-initialize)
+
+;; 2) Prevent package.el from writing package-selected-packages noninteractively.
+(with-eval-after-load 'package
+  (advice-add 'package--save-selected-packages :override #'ignore))
+
+;;;* Benchmark-init
+
+;; Only need this enabled when we are hacking initialization
+;; NOTE: We must comment this out when first installing packages, beccause benchmark-init is not yet available.
+
+;(let ((bench (getenv "EMACS_BENCHMARK")))
+(let ((bench t))
+  (when (and bench (require 'benchmark-init nil t))
+    (add-hook 'after-init-hook #'benchmark-init/deactivate)
+    (global-set-key (kbd "C-c B") #'benchmark-init/show-durations-tabulated)
+    (global-set-key (kbd "C-c C") #'benchmark-init/show-durations-tree)))
+
+(add-hook 'emacs-startup-hook
+          (lambda () (message "Total: %.3fs  Init: %s"
+                              (float-time (time-subtract (current-time) before-init-time))
+                              (emacs-init-time))))
+
+(setq custom-safe-themes '("ad3592425d3cc6e205aa492b2b6a8f1a86fc4d36a3963faf75b3909b94c1324a" default))
+
+(init-load "settings")
+(init-load "init-my-packages.el")
+
+;;;** Install or update required packages automatically
+(when (not package-archive-contents)
+  (package-refresh-contents))
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+
+;; This is not faster
+(defun my/ensure-packages ()
+  (interactive)
+  (unless package-archive-contents (package-refresh-contents))
+  (dolist (p my-packages)
+    (unless (package-installed-p p) (package-install p))))
+
+(eval-when-compile
+  (require 'use-package))
+
+;; Cannot put this in settings.el and load in early-init.el. Causes startup error.
+;; Make code-quoting in info a bit less ugly.
+(set-face-attribute 'Info-quoted nil :family "Iosevka" :height 160)
+
+;; Something subtle changed in my config. Need this in order to find dyn lib
+(with-eval-after-load 'package
+  (let ((vterm-dir (file-name-directory (locate-library "vterm"))))
+    (when vterm-dir
+      (load (expand-file-name "vterm-module.so" vterm-dir) nil t))))
+
+(use-package vterm
+  :commands vterm
+    :ensure t)
+
+(init-load "gptel")
+(init-load "language/julia")
+(init-load "language/python")
+(init-load "language/lsp")
+
+(use-package wolfram-mode
+  :ensure t
+  :mode ("\\.wl\\'" "\\.wls\\'" "\\.m\\'") ; Associates Wolfram/Mathematica files
+  :config
+  (setq wolfram-indent 4)) ; Sets your preferred indentation spacing
+
+
+(use-package yaml-ts-mode
+  :ensure nil ; built-in in Emacs 29+
+  :mode ("\\.yaml\\'" "\\.yml\\'"))
+
+;; This does not prevent loading pcomplete on startup
+(use-package pcomplete
+  :commands
+  pcomplete-expand
+  pcomplete-list
+  pcomplete-expand-and-complete
+  pcomplete-continue pcomplete-help)
+
+;;;* Uniquify buffer names. More useful distinction between buffers with same file name
+(use-package uniquify
+  :init (setq uniquify-buffer-name-style 'forward))
+
+;;;* Save place in files across sessions
+;;;
+(use-package saveplace
+  :init
+  (setq-default save-place-mode t))
+
+
+;;(init-load "init-dirvish")
+(init-load "init-diredp")
+
+(setq dired-guess-shell-alist-user
+      '(("\\.pdf\\'" "nzathura")
+        ("\\.djvu\\'" "djview")
+        ("\\.mp4\\'" "mpv")
+        ("\\.sh\\'" "/bin/bash")))
+
+
+(use-package markdown-mode  ;; autoload
+  :mode ("\\.md\\'" . markdown-mode))
+
+;; (use-package ido
+;;   :init (ido-mode (quote both))
+;;   :config
+;;   (progn
+;;     (setq ido-max-directory-size 100000)
+;;     ;; Use the current window when visiting files and buffers with ido
+;;     (setq ido-default-file-method 'selected-window)
+;;     (setq ido-default-buffer-method 'selected-window)
+;;     (setq ido-enable-flex-matching t
+;;           ido-use-virtual-buffers t
+;;           ido-auto-merge-work-directories-length nil  ; no jumping to other dirs
+;;           ) ;; automatically reopen file if we visit buffer
+;;     )
+;;   (ido-everywhere))
+
+;; This is suppose to delay loading. Cant see the effect
+(defun my-setup-ido ()
+  (remove-hook 'minibuffer-setup-hook #'my-setup-ido)
+  (ido-mode 'both)
+  (ido-everywhere 1)
+  (setq ido-max-directory-size 100000
+        ido-default-file-method 'selected-window
+        ido-default-buffer-method 'selected-window
+        ido-enable-flex-matching t
+        ido-use-virtual-buffers t
+        ido-auto-merge-work-directories-length nil))
+(add-hook 'minibuffer-setup-hook #'my-setup-ido)
+
+(defun basic-completion-style ()
+  (setq completion-auto-wrap t
+        completion-auto-select 'second-tab
+        completion-auto-help 'always
+        completion-show-help nil
+        completions-format 'one-column
+        completions-max-height 10))
+
+(defun icomplete-vertical-style ()
+  (setq completion-auto-wrap t
+        completion-auto-help nil
+        completions-max-height 15
+        completion-styles '(initials flex)
+        icomplete-in-buffer t
+        max-mini-window-height 10)
+
+  (icomplete-mode 1)
+  (icomplete-vertical-mode 1))
+
+(defun fido-style ()
+  (setq completion-auto-wrap t
+        completion-auto-help nil
+        completions-max-height 15
+        completion-styles '(flex)
+        icomplete-in-buffer t
+        max-mini-window-height 15)
+
+  (fido-mode 1)
+  (fido-vertical-mode 1))
+
+;; overwrite binding to icomplete-force-complete-and-exit
+(with-eval-after-load 'icomplete
+  (define-key icomplete-minibuffer-map (kbd "C-j") #'icomplete-fido-exit))
+
+(fido-style)
+
+;; Global change font (including minibuffer) with prefix C-u
+;; zoom-frm package.  Use C-x, then repeated C-+ or C--
+;; (use-package zoom-frm
+;;   :commands zoom-in/out zoom-in zoom-out
+;;   :load-path "~/.emacs.d/lisp/zoom-frm"
+;;   :config
+;;   (define-key ctl-x-map [(control ?+)] 'zoom-in/out)
+;;   (define-key ctl-x-map [(control ?-)] 'zoom-in/out)
+;;   (define-key ctl-x-map [(control ?=)] 'zoom-in/out)
+;;   (define-key ctl-x-map [(control ?0)] 'zoom-in/out))
+
+(use-package zoom-frm
+  :load-path "~/.emacs.d/lisp/zoom-frm"
+  :commands (zoom-in/out zoom-in zoom-out)
+  :bind (("C-x C-+" . zoom-in/out)
+         ("C-x C--" . zoom-in/out)
+         ("C-x C-=" . zoom-in/out)
+         ("C-x C-0" . zoom-in/out)
+         ([C-mouse-5] . zoom-in)
+         ([C-mouse-4] . zoom-out)
+         ([S-mouse-1] . zoom-in)
+         ([C-S-mouse-1] . zoom-out)))
+
+;; Use ctrl mouse wheel to zoom
+(global-set-key (vector (list 'control mouse-wheel-down-event)) 'zoom-in)
+(global-set-key (vector (list 'control mouse-wheel-up-event))   'zoom-out)
+
+;; shift click and shift-ctrl click to zoom
+(global-set-key [S-mouse-1]    'zoom-in)
+(global-set-key [C-S-mouse-1]  'zoom-out)
+;; Get rid of `mouse-set-font' or `mouse-appearance-menu':
+(global-set-key [S-down-mouse-1] nil)
+
+;; Hit C-u at any time while using these commands zoom-in, -out to toggle between buffer
+;; zooming and frame zooming. The kind of zooming (buffer or frame) you get by
+;; default is defined by option zoom-frame/buffer. C-u with a zoom command
+;; toggles the option.
+
+;;;;;;;;;;;;;;;;;;;;
+
+;; Start up maximized. Code taken from
+;; http://ubuntuforums.org/showthread.php?t=782196
+(defun toggle-fullscreen ()
+  (interactive)
+  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+
+(if (eq 'x (window-system))
+    (toggle-fullscreen))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; IBUFFER
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;** C-x C-b opens ibuffer in other window.
+;; default C-x C-b is bound to ibuffer. We change this to open ibuffer in other windowa
+(global-set-key (kbd "C-x C-b") 'ibuffer-other-window)
+(setq ibuffer-default-sorting-mode 'major-mode)
+
+;;;** ibuffer column widths
+;; nearly all of this is the default layout
+(setq ibuffer-formats
+      '((mark modified read-only " "
+              (name 30 30 :left :elide) ; change: 30s were originally 18s
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " " filename-and-process)
+        (mark " "
+              (name 16 -1)
+              " " filename)))
+
+
+
+(global-set-key (kbd "C-x m") 'magit-status)  ;; Overwrite compose-mail binding
+
+(with-eval-after-load 'calendar
+  (setq calendar-latitude 41.4)
+  (setq calendar-longitude 2.2)
+  (setq calendar-location-name "Barcelona"))
+
+;; I am using pdf-tools. So opening pdf's in emacs is nice.
+;; viking is lightweight for viewing gps tracks
+(setq gpx-viewer (getenv "GPX_VIEWER"))
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
+
+;; (setq auto-mode-alist
+;;    (append
+;;       (list
+;;          '("\\.gp$" . gnuplot-mode)
+;;          '("\\.plt$" . gnuplot-mode))
+;;       auto-mode-alist))
+
+(dolist (pair ('("\\.plt$" . gnuplot-mode) '("\\.gp$" . gnuplot-mode)))
+  (add-to-list 'auto-mode-alist pair))
+
+(autoload 'wolfram-mode "wolfram-mode" nil t)
+(autoload 'run-wolfram "wolfram-mode" nil t)
+(setq wolfram-program "/usr/local/bin/MathKernel")
+(add-to-list 'auto-mode-alist '("\\.m$" . wolfram-mode))
+(setq wolfram-path "~/.Mathematica/Applications")
+
+;; these lines enable the use of gnuplot mode
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+
+(autoload 'openqasm3-mode "openqasm3-mode" "OpenQASM3 major mode" t)
+(add-to-list 'auto-mode-alist '("\\.qasm$" . openqasm3-mode))
+
+;; Autoload the mode only when opening .typ files
+(autoload 'typst-ts-mode "typst-ts-mode" "Major mode for Typst files." t)
+;; Associate .typ files with typst-ts-mode
+(add-to-list 'auto-mode-alist '("\\.typ$" . typst-ts-mode))
+
+(init-load "auctex_things")
+
+;; Loads at startup
+;; (use-package mic-paren
+;;   :init (setq paren-match-face 'highlight)
+;;   :config (paren-activate)) ; <--- load at startup
+
+;(init-load "images")
+
+;; Uncomment to use sbcl, slime
+;; (init-load "slime_init")
+
+;;(init-load "helm-bibtex")
+
+(init-load "editor")
+
+(init-load "org_things")
+
+(init-load "my_utils")
+
+(with-eval-after-load 'bookmark+
+  (setq bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks"))
+(use-package paradox
+  :defer t
+;;  :custom (paradox-github-token t)
+  :config (paradox-github-token t)
+  )
+
+
+(setq custom-file  (locate-user-emacs-file (format "lib/%s" ".emacs-custom.el")))
+(init-load ".emacs-custom.el")
+; (init-load "seldom_used.el")
+;(init-load "nocompile.el")
