@@ -113,8 +113,16 @@
 (use-package wolfram-mode
   :ensure t
   :mode ("\\.wl\\'" "\\.wls\\'" "\\.m\\'") ; Associates Wolfram/Mathematica files
+  :commands run-wolfram
   :config
-  (setq wolfram-indent 4)) ; Sets your preferred indentation spacing
+  (setq wolfram-indent 4) ; Sets your preferred indentation spacing
+  ;; Find the kernel on PATH, so this works on Linux and macOS. If it is not
+  ;; found, wolfram-mode's default is kept; set it by hand if needed.
+  (let ((kernel (or (executable-find "MathKernel") (executable-find "WolframKernel"))))
+    (when kernel (setq wolfram-program kernel)))
+  (setq wolfram-path (if (eq system-type 'darwin)
+                         "~/Library/Mathematica/Applications"
+                       "~/.Mathematica/Applications")))
 
 
 (use-package yaml-ts-mode
@@ -306,12 +314,6 @@
 
 (dolist (pair '(("\\.plt$" . gnuplot-mode) ("\\.gp$" . gnuplot-mode)))
   (add-to-list 'auto-mode-alist pair))
-
-(autoload 'wolfram-mode "wolfram-mode" nil t)
-(autoload 'run-wolfram "wolfram-mode" nil t)
-(setq wolfram-program "/usr/local/bin/MathKernel")
-(add-to-list 'auto-mode-alist '("\\.m$" . wolfram-mode))
-(setq wolfram-path "~/.Mathematica/Applications")
 
 ;; these lines enable the use of gnuplot mode
 (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
