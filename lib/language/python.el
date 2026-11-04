@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package py-vterm-interaction
   :defer t
   :hook (python-mode . py-vterm-interaction-mode)
