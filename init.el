@@ -1,10 +1,4 @@
 ;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
-;;; -*- lexical-binding: t; -*-
-
-;; TODO: Hope this has been fixed. Workaround no longer needed
-;; March 19, 2021
-;; https://emacs.stackexchange.com/questions/61997/how-do-i-fix-incomprehensible-buffer-error-when-running-list-packages
-;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;(set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)a
 
@@ -56,7 +50,7 @@
 (when (fboundp 'no-littering-theme-backups)
   (no-littering-theme-backups))
 
-;; 2) Prevent package.el from writing package-selected-packages noninteractively.
+;; Prevent package.el from writing package-selected-packages noninteractively.
 (with-eval-after-load 'package
   (advice-add 'package--save-selected-packages :override #'ignore))
 
@@ -89,7 +83,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-;; This is not faster
+;; Same as the loop above, as a command
 (defun my/ensure-packages ()
   (interactive)
   (unless package-archive-contents (package-refresh-contents))
@@ -280,13 +274,6 @@
 (unless (eq system-type 'darwin)
   (setq browse-url-browser-function 'browse-url-generic
         browse-url-generic-program "firefox"))
-
-;; (setq auto-mode-alist
-;;    (append
-;;       (list
-;;          '("\\.gp$" . gnuplot-mode)
-;;          '("\\.plt$" . gnuplot-mode))
-;;       auto-mode-alist))
 
 (dolist (pair '(("\\.plt$" . gnuplot-mode) ("\\.gp$" . gnuplot-mode)))
   (add-to-list 'auto-mode-alist pair))
