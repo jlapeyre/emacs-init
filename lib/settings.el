@@ -85,11 +85,6 @@
 
 (global-set-key (kbd "C-a") 'back-to-indentation)
 
-;; smex -- smart choosing of M-x commands
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; TODO bind to something useful
 (global-set-key (kbd "C-x C-z") nil) ; (was suspend-frame)

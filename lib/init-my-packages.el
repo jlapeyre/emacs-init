@@ -62,10 +62,13 @@
                       treemacs
                       tuareg
                       typescript-mode
-                      smex volume wolfram-mode
+                      volume wolfram-mode
                       visual-fill-column
                       vterm
                       vundo
+                      vertico
+                      orderless
+                      marginalia
                       ;; yaml-mode
 		      )
   "A list of packages to ensure are installed at launch.")

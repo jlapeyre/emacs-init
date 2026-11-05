@@ -150,45 +150,29 @@
 (use-package markdown-mode  ;; autoload
   :mode ("\\.md\\'" . markdown-mode))
 
-;; fido handles completing-read. smex (M-x, see settings.el) uses ido's
-;; completion UI directly, without ido-mode, so set its matching here.
-(setq ido-enable-flex-matching t)
+;;;* Minibuffer completion
 
-(defun basic-completion-style ()
-  (setq completion-auto-wrap t
-        completion-auto-select 'second-tab
-        completion-auto-help 'always
-        completion-show-help nil
-        completions-format 'one-column
-        completions-max-height 10))
+;; Vertical completion list in the minibuffer
+(use-package vertico
+  :ensure t
+  :init (vertico-mode))
 
-(defun icomplete-vertical-style ()
-  (setq completion-auto-wrap t
-        completion-auto-help nil
-        completions-max-height 15
-        completion-styles '(initials flex)
-        icomplete-in-buffer t
-        max-mini-window-height 10)
+;; Type several space-separated patterns; each one narrows further
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-  (icomplete-mode 1)
-  (icomplete-vertical-mode 1))
+;; Remember minibuffer history across restarts. vertico lists recently
+;; used candidates first, so M-x puts your frequent commands at the top.
+(use-package savehist
+  :init (savehist-mode))
 
-(defun fido-style ()
-  (setq completion-auto-wrap t
-        completion-auto-help nil
-        completions-max-height 15
-        completion-styles '(flex)
-        icomplete-in-buffer t
-        max-mini-window-height 15)
-
-  (fido-mode 1)
-  (fido-vertical-mode 1))
-
-;; overwrite binding to icomplete-force-complete-and-exit
-(with-eval-after-load 'icomplete
-  (define-key icomplete-minibuffer-map (kbd "C-j") #'icomplete-fido-exit))
-
-(fido-style)
+;; Show a one-line description next to each candidate
+(use-package marginalia
+  :ensure t
+  :init (marginalia-mode))
 
 ;; Global change font (including minibuffer) with prefix C-u
 ;; zoom-frm package.  Use C-x, then repeated C-+ or C--
