@@ -272,6 +272,10 @@
           (message "Difference: %.2f hours" (abs hours)))
       (message "Please make sure both point and mark are on date entries."))))
 
+;; Some org files set these faces as a file-local variable; ignore it without asking
+(add-to-list 'ignored-local-variable-values
+             '(org-todo-keyword-faces ("PROG" . "orange") ("CANCELLED" . "gray")))
+
 (defun my/apply-org-faces (&rest _)
   (custom-theme-set-faces
    'user

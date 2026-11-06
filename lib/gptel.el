@@ -48,8 +48,8 @@
 
 ;;(setq-local gptel-model "gpt-5"))
 
-;; (add-to-list 'safe-local-variable-values
-;;              '(eval (and (fboundp 'gptel-mode) (gptel-mode 1))))
-
 (add-to-list 'safe-local-variable-values
              '(eval (gptel-mode 1)))
+;; The form used by older files; ignore it without asking
+(add-to-list 'ignored-local-variable-values
+             '(eval and (fboundp 'gptel-mode) (gptel-mode 1)))

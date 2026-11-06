@@ -285,5 +285,7 @@
   :config (setq paradox-github-token t))
 
 
-(setq custom-file  (locate-user-emacs-file (format "lib/%s" ".emacs-custom.el")))
-(init-load ".emacs-custom")
+;; Settings are made in code. Anything saved with Customize goes in var/,
+;; which is not under version control; move it into code if it is worth keeping.
+(setq custom-file (locate-user-emacs-file "var/custom.el"))
+(load custom-file t t)
