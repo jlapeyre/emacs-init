@@ -25,7 +25,7 @@
          ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)
          ("C-h x" . helpful-command)
-         ("C-c C-d" . helpful-at-point)
+         ("C-h ." . helpful-at-point) ; was display-local-help
          ("C-h F" . helpful-function))
   )
 

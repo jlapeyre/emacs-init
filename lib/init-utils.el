@@ -4,19 +4,13 @@
 ;;; Utils means function written by me others, with code here. Not in a package.
 ;;;
 
-;;; C-c C-. insert-date
-(defun insert-date ()
-  "Insert today's date at point"
-  (interactive "*")
-  (insert (format-time-string "%F")))
-(global-set-key (kbd "C-c C-.") #'insert-date)
-
-;;; C-c . insert-date-time
-(defun insert-date-time ()
-  "Insert today's date and time at point"
-  (interactive "*")
-  (insert (format-time-string "%F %R")))
-(global-set-key (kbd "C-c .") #'insert-date-time)
+;;; C-c d insert-date, C-u C-c d with the time
+(defun insert-date (&optional with-time)
+  "Insert today's date at point, like 2026-11-05.
+With a prefix argument, also insert the time, like 2026-11-05 14:30."
+  (interactive "*P")
+  (insert (format-time-string (if with-time "%F %R" "%F"))))
+(global-set-key (kbd "C-c d") #'insert-date)
 
 ;;;* Sorting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

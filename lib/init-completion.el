@@ -46,4 +46,4 @@
 ;; C-h b is back to the built-in describe-bindings.
 (use-package consult
   :bind (("M-y" . consult-yank-pop)  ; browse the kill ring
-         ("C-c h o" . consult-line))) ; lines in this buffer matching input, like occur
+         ("M-s l" . consult-line))) ; lines in this buffer matching input, like occur (M-s o)
