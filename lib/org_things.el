@@ -68,7 +68,6 @@
 
 ;;(global-set-key (kbd "C-c a") 'org-capture)  ;; this interferes with tag search commands
 (global-set-key (kbd "C-c z") 'org-capture)
-(global-set-key (kbd "C-c C-f") 'org-capture-finalize)
 (global-set-key (kbd "<f12>") 'org-agenda)
 ;; switch among org mode buffers
 (global-set-key "\C-cb" 'org-switchb)
