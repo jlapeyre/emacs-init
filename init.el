@@ -170,17 +170,10 @@
   :ensure t
   :init (marginalia-mode))
 
-;; Global change font (including minibuffer) with prefix C-u
-;; zoom-frm package.  Use C-x, then repeated C-+ or C--
-;; (use-package zoom-frm
-;;   :commands zoom-in/out zoom-in zoom-out
-;;   :load-path "~/.emacs.d/lisp/zoom-frm"
-;;   :config
-;;   (define-key ctl-x-map [(control ?+)] 'zoom-in/out)
-;;   (define-key ctl-x-map [(control ?-)] 'zoom-in/out)
-;;   (define-key ctl-x-map [(control ?=)] 'zoom-in/out)
-;;   (define-key ctl-x-map [(control ?0)] 'zoom-in/out))
-
+;; zoom-frm (vendored in lisp/): zoom the buffer, or the whole frame
+;; including the minibuffer. Use C-x, then repeated C-+ or C--.
+;; C-u with a zoom command toggles between buffer and frame zooming
+;; (option `zoom-frame/buffer').
 (use-package zoom-frm
   :load-path "~/.emacs.d/lisp/zoom-frm"
   :commands (zoom-in/out zoom-in zoom-out)
@@ -188,27 +181,16 @@
          ("C-x C--" . zoom-in/out)
          ("C-x C-=" . zoom-in/out)
          ("C-x C-0" . zoom-in/out)
-         ([C-mouse-5] . zoom-in)
-         ([C-mouse-4] . zoom-out)
+         ;; shift click and shift-ctrl click
          ([S-mouse-1] . zoom-in)
-         ([C-S-mouse-1] . zoom-out)))
-
-;; Use ctrl mouse wheel to zoom
-(global-set-key (vector (list 'control mouse-wheel-down-event)) 'zoom-in)
-(global-set-key (vector (list 'control mouse-wheel-up-event))   'zoom-out)
-
-;; shift click and shift-ctrl click to zoom
-(global-set-key [S-mouse-1]    'zoom-in)
-(global-set-key [C-S-mouse-1]  'zoom-out)
-;; Get rid of `mouse-set-font' or `mouse-appearance-menu':
-(global-set-key [S-down-mouse-1] nil)
-
-;; Hit C-u at any time while using these commands zoom-in, -out to toggle between buffer
-;; zooming and frame zooming. The kind of zooming (buffer or frame) you get by
-;; default is defined by option zoom-frame/buffer. C-u with a zoom command
-;; toggles the option.
-
-;;;;;;;;;;;;;;;;;;;;
+         ([C-S-mouse-1] . zoom-out))
+  :init
+  ;; Ctrl + mouse wheel. The wheel event names differ between window
+  ;; systems, so use the variables rather than fixed keys.
+  (global-set-key (vector (list 'control mouse-wheel-down-event)) #'zoom-in)
+  (global-set-key (vector (list 'control mouse-wheel-up-event)) #'zoom-out)
+  ;; Get rid of `mouse-set-font' or `mouse-appearance-menu':
+  (global-set-key [S-down-mouse-1] nil))
 
 ;; Start up maximized, on any window system.
 (push '(fullscreen . maximized) default-frame-alist)
