@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-lsp.el --- LSP (lsp-mode)  -*- lexical-binding: t; -*-
 
 (use-package lsp-mode
   :ensure t

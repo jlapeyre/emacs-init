@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-editor.el --- Editing packages and commands  -*- lexical-binding: t; -*-
 
 ;;
 ;; Load packages used for editing files. Very similar to settings.el, except
@@ -11,13 +11,6 @@
 ;;   :load-path "~/.emacs.d/lisp/highlight-chars"
 ;;   :commands hc-highlight-trailing-whitespace hc-toggle-highlight-trailing-whitespace)
 
-
-;; consult: search and selection commands whose candidates are shown by
-;; vertico (see init.el). These replace the helm commands used before.
-;; C-h b is back to the built-in describe-bindings.
-(use-package consult
-  :bind (("M-y" . consult-yank-pop)  ; browse the kill ring
-         ("C-c h o" . consult-line))) ; lines in this buffer matching input, like occur
 
 ;; `helpful-callable' as a drop-in replacement.
 ;; (global-set-key (kbd "C-h f") #'helpful-callable)

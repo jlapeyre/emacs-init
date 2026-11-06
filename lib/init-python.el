@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-python.el --- Python  -*- lexical-binding: t; -*-
 
 (use-package py-vterm-interaction
   :defer t

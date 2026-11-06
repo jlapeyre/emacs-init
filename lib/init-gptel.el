@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-gptel.el --- gptel LLM client  -*- lexical-binding: t; -*-
 
 (use-package gptel
   :defer t

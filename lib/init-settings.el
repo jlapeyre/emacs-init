@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-settings.el --- Built-in options and global keys  -*- lexical-binding: t; -*-
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -6,11 +6,6 @@
 ;; Set fill column globally
 ;; Julia docs suggest 92; why not
 (setq-default fill-column 92)
-
-;;;* Leaner, simpler startup configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; LEANER STARTUP
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;** Comment and uncomment region quickly
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -153,3 +148,22 @@
 ;; original window. You almost always want to read the help right away, so you end up
 ;; pressing C-x o every single time. This fixes it:
 (setq help-window-select t)
+
+;; Optimize `auto-mode-alist'
+(setq auto-mode-case-fold nil)
+
+;;;* Save place in files across sessions
+;;;
+(use-package saveplace
+  :init
+  (save-place-mode 1))
+
+(with-eval-after-load 'calendar
+  (setq calendar-latitude 41.4)
+  (setq calendar-longitude 2.2)
+  (setq calendar-location-name "Barcelona"))
+
+;; On macOS the default uses `open', which goes to the system default browser.
+(unless (eq system-type 'darwin)
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "firefox"))

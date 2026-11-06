@@ -1,4 +1,4 @@
-;;; my_utils.el  --- Function defined here   -*- lexical-binding:t -*-
+;;; init-utils.el --- My own commands  -*- lexical-binding: t; -*-
 
 ;;;
 ;;; Utils means function written by me others, with code here. Not in a package.

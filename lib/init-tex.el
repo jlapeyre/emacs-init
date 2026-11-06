@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-tex.el --- AUCTeX and RefTeX  -*- lexical-binding: t; -*-
 ;;;* auctex and friends
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; AUCTEX

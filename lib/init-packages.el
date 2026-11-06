@@ -1,4 +1,52 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-packages.el --- Package system and package list  -*- lexical-binding: t; -*-
+
+;;;* Package manager
+;; Emacs has already activated the installed packages before this file is
+;; loaded (see early-init.el), so do not call `package-initialize' here.
+;; On a fresh install, run M-x package-install-selected-packages, then
+;; restart. The package list is below.
+
+(require 'package)
+(setq package-archives '(
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ))
+
+(setq use-package-always-defer t)
+(setq use-package-verbose t)
+
+;; Put files written by packages in var/ and etc/ rather than the top level
+;; of user-emacs-directory. Load before anything that reads those paths.
+;; noerror: on first startup it is not yet installed.
+(require 'no-littering nil t)
+;; Also put backup (foo~) and auto-save (#foo#) files under var/
+(when (fboundp 'no-littering-theme-backups)
+  (no-littering-theme-backups))
+
+;; package-selected-packages is set below. Keep
+;; package.el from saving its own copy to the custom file, which would
+;; override that list.
+(with-eval-after-load 'package
+  (advice-add 'package--save-selected-packages :override #'ignore))
+
+;;;* Benchmark-init
+
+;; Only need this enabled when we are hacking initialization
+;; NOTE: We must comment this out when first installing packages, beccause benchmark-init is not yet available.
+
+;(let ((bench (getenv "EMACS_BENCHMARK")))
+(let ((bench t))
+  (when (and bench (require 'benchmark-init nil t))
+    (add-hook 'after-init-hook #'benchmark-init/deactivate)
+    (global-set-key (kbd "C-c B") #'benchmark-init/show-durations-tabulated)
+    (global-set-key (kbd "C-c C") #'benchmark-init/show-durations-tree)))
+
+(add-hook 'emacs-startup-hook
+          (lambda () (message "Total: %.3fs  Init: %s"
+                              (float-time (time-subtract (current-time) before-init-time))
+                              (emacs-init-time))))
+
 
 ;;;** Packages to install
 ;; Install any that are missing with M-x package-install-selected-packages

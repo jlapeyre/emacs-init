@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-julia.el --- Julia  -*- lexical-binding: t; -*-
 ;;;* julia mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; JULIA

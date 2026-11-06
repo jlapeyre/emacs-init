@@ -1,4 +1,8 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-org.el --- Org mode  -*- lexical-binding: t; -*-
+
+;; I am using pdf-tools. So opening pdf's in emacs is nice.
+;; viking is lightweight for viewing gps tracks
+(defvar my/gpx-viewer (getenv "GPX_VIEWER"))
 ;;;* ORG MODE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ORG

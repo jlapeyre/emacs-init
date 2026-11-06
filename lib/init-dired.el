@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; init-dired.el --- dired+ and dired settings  -*- lexical-binding: t; -*-
 
 ;;(setq nerd-icons-font-family "Symbols Nerd Font Mono") ; the default
 ;;(setq nerd-icons-font-family "Symbols Nerd Font Mononoki"); missing glyphs
@@ -24,3 +24,9 @@
           (when (file-directory-p a)
             (throw 'd t))) nil)
   (my-dired+-boot))
+
+(setq dired-guess-shell-alist-user
+      '(("\\.pdf\\'" "nzathura")
+        ("\\.djvu\\'" "djview")
+        ("\\.mp4\\'" "mpv")
+        ("\\.sh\\'" "/bin/bash")))
