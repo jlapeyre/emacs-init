@@ -63,7 +63,7 @@
 (setq custom-safe-themes '("ad3592425d3cc6e205aa492b2b6a8f1a86fc4d36a3963faf75b3909b94c1324a" default))
 
 (init-load "settings")
-(init-load "init-my-packages.el")
+(init-load "init-my-packages")
 
 ;;;** Install missing packages
 ;; Not done at startup: it needs the package archive lists, which are slow
@@ -288,6 +288,6 @@
 
 
 (setq custom-file  (locate-user-emacs-file (format "lib/%s" ".emacs-custom.el")))
-(init-load ".emacs-custom.el")
+(init-load ".emacs-custom")
 ; (init-load "seldom_used.el")
 ;(init-load "nocompile.el")

@@ -160,7 +160,7 @@
                                 :face 'org-link)
                              (when (not (fboundp 'cfw:open-calendar-buffer))
                                ;(load-library "org-man.el") ; Figure this out later. Different files with same version number appear
-                               (load "extra-holidays.el") ;; Holidays for Spain, Catalunya, etc.
+                               (load "extra-holidays") ;; Holidays for Spain, Catalunya, etc.
                                ;; Allow linking to man pages. This was copied and pasted to my hand-rolled dir.
                                (load-library "calfw")     ;; Show a paper-like calendar
                                (load-library "org-clock") ; doesn't help
