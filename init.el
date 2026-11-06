@@ -1,5 +1,7 @@
 ;;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
 
+(my/mark "init.el start")
+
 ;(set-face-attribute 'default nil :height 150) ; Adjust the height as needed ; 120 is an example size (10pt)a
 
 ;; Optimize `auto-mode-alist'

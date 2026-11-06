@@ -1,5 +1,45 @@
 ;; early-init.el --- Early initialization  -*- lexical-binding: t -*-
 
+(defvar my/t0 (current-time))
+(defvar my/startup-log nil)
+(defun my/mark (what)
+  (push (format "%7.3f  %s" (float-time (time-since my/t0)) what)
+        my/startup-log))
+
+(defun my/log-call-process (orig program &rest args)
+  (let ((t1 (current-time)))
+    (prog1 (apply orig program args)
+      (my/mark (format "call-process %s %S (%.3fs)" program
+                       (nthcdr 3 args) (float-time (time-since t1)))))))
+(defun my/log-make-process (orig &rest args)
+  (my/mark (format "make-process %S" (plist-get args :command)))
+  (apply orig args))
+(advice-add 'call-process :around #'my/log-call-process)
+(advice-add 'make-process :around #'my/log-make-process)
+
+(add-hook 'after-init-hook (lambda () (my/mark "after-init done")))
+(add-hook 'emacs-startup-hook (lambda () (my/mark "emacs-startup-hook")))
+(add-hook 'window-setup-hook
+  (lambda ()
+    (my/mark "window-setup (end)")
+    (advice-remove 'call-process #'my/log-call-process)
+    (advice-remove 'make-process #'my/log-make-process)
+    (when (> (float-time (time-since my/t0)) 2.0)
+      (with-temp-buffer
+        (insert (mapconcat #'identity (reverse my/startup-log) "\n") "\n")
+        (write-region nil nil
+          (no-littering-expand-var-file-name
+           (format-time-string "startup-trace-%F-%H%M%S.txt"))
+          nil 'silent))))
+  90)
+
+(defun my/show-startup-log ()
+  (interactive)
+  (with-current-buffer (get-buffer-create "*startup-trace*")
+    (erase-buffer)
+    (insert (mapconcat #'identity (reverse my/startup-log) "\n") "\n")
+    (display-buffer (current-buffer))))
+
 ;; Duplicates same perf opt done later.
 ;; (defvar centaur--file-name-handler-alist file-name-handler-alist)
 ;; (setq file-name-handler-alist nil)
