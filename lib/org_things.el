@@ -34,7 +34,7 @@
 ;; online regarding this.
 (setq org-agenda-custom-commands
       '(("n" "Agenda and all TODOs" ((agenda "") (alltodo "")))
-        ("c" "calfw, calendar" gjl:calfw-open-calendar)))
+        ("c" "calfw, calendar" my/calfw-open-calendar)))
 
 (setq org-use-speed-commands t)
 
@@ -150,56 +150,55 @@
 ;; I set up org-mode to generate unique attachment IDs with org-id-method as follows:
 (setq org-id-method (quote uuidgen))
 
-(add-hook 'org-mode-hook (lambda ()
-                           (progn
-                             (visual-line-mode 1)
-                             (org-link-set-parameters
-                                "zathura"
-                                :follow (lambda (path) (start-process "zathura" nil "zathura" path))
-                                :complete (lambda () (read-file-name "Zathura file: "))
-                                :face 'org-link)
-                             (when (not (fboundp 'cfw:open-calendar-buffer))
-                               ;(load-library "org-man.el") ; Figure this out later. Different files with same version number appear
-                               (load "extra-holidays") ;; Holidays for Spain, Catalunya, etc.
-                               ;; Allow linking to man pages. This was copied and pasted to my hand-rolled dir.
-                               (load-library "calfw")     ;; Show a paper-like calendar
-                               (load-library "org-clock") ; doesn't help
-                               (load-library "org-timer") ; doesn't help
-                               (org-clock-persistence-insinuate)
-                               (require 'org-id)
-                               (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2)) ; Change 2.0 to your preferred scale.
-                               ))))
+;; Done in each org buffer
+(defun my/org-mode-setup ()
+  (visual-line-mode 1))
+(add-hook 'org-mode-hook #'my/org-mode-setup)
 
+;; Done once, when org is loaded
+(with-eval-after-load 'org
+  (org-link-set-parameters
+   "zathura"
+   :follow (lambda (path) (start-process "zathura" nil "zathura" path))
+   :complete (lambda () (read-file-name "Zathura file: "))
+   :face 'org-link)
+  (load "extra-holidays") ;; Holidays for Spain, Catalunya, etc.
+  (require 'org-clock)
+  (require 'org-timer)
+  (org-clock-persistence-insinuate)
+  (require 'org-id)
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2))) ; Change 2.0 to your preferred scale.
 
-;; helper function for launching calfw from agenda view
-(defun gjl:calfw-open-calendar (&rest _)
+;; calfw shows a paper-like calendar. calfw has no autoloads, so load it here.
+;; Used by the "c" agenda command above.
+(defun my/calfw-open-calendar (&rest _)
   (interactive)
-  (when (not (fboundp 'cfw:open-calendar-buffer))
-    (progn (load-library "calfw") (load-library "calfw-org")))
-  (cfw:open-calendar-buffer))
+  (require 'calfw)
+  (require 'calfw-org)
+  (calfw-open-calendar-buffer))
 
 ;; Calfw Unicode characters for frame
 ;; This looks better.
-;; (setq cfw:fchar-junction ?╋
-;;       cfw:fchar-vertical-line ?┃
-;;       cfw:fchar-horizontal-line ?━
-;;       cfw:fchar-left-junction ?┣
-;;       cfw:fchar-right-junction ?┫
-;;       cfw:fchar-top-junction ?┯
-;;       cfw:fchar-top-left-corner ?┏
-;;       cfw:fchar-top-right-corner ?┓)
+;; (setq calfw-fchar-junction ?╋
+;;       calfw-fchar-vertical-line ?┃
+;;       calfw-fchar-horizontal-line ?━
+;;       calfw-fchar-left-junction ?┣
+;;       calfw-fchar-right-junction ?┫
+;;       calfw-fchar-top-junction ?┯
+;;       calfw-fchar-top-left-corner ?┏
+;;       calfw-fchar-top-right-corner ?┓)
 
-;; Another lookf for calfw
-(setq cfw:fchar-junction ?╬
-      cfw:fchar-vertical-line ?║
-      cfw:fchar-horizontal-line ?═
-      cfw:fchar-left-junction ?╠
-      cfw:fchar-right-junction ?╣
-      cfw:fchar-top-junction ?╦
-      cfw:fchar-top-left-corner ?╔
-      cfw:fchar-top-right-corner ?╗)
+;; Another look for calfw
+(setq calfw-fchar-junction ?╬
+      calfw-fchar-vertical-line ?║
+      calfw-fchar-horizontal-line ?═
+      calfw-fchar-left-junction ?╠
+      calfw-fchar-right-junction ?╣
+      calfw-fchar-top-junction ?╦
+      calfw-fchar-top-left-corner ?╔
+      calfw-fchar-top-right-corner ?╗)
 
-(setq cfw:org-overwrite-default-keybinding t)
+(setq calfw-org-overwrite-default-keybinding t)
 
 ;; Copied verbatim from Bernt Hansen's web page
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
@@ -233,7 +232,7 @@
 
 ;; org-global-tags-completion-table is not interactive, but the net seems to think it is.
 ;; So, here is someones function that I found.
-(defun org-get-all-tags-list ()
+(defun my/org-get-all-tags-list ()
     (interactive)
     (mapcar 'car (org-global-tags-completion-table)))
 
@@ -277,7 +276,7 @@
 (add-to-list 'ignored-local-variable-values
              '(org-todo-keyword-faces ("PROG" . "orange") ("CANCELLED" . "gray")))
 
-(defun my/apply-org-faces ()
+(defun my/apply-org-faces (&rest _)
   (custom-theme-set-faces
    'user
    '(org-block ((t (:inherit fixed-pitch))))
@@ -296,4 +295,4 @@
 (with-eval-after-load 'org
   (my/apply-org-faces))
 
-(advice-add 'load-theme :after (lambda (&rest _) (my/apply-org-faces)))
+(advice-add 'load-theme :after #'my/apply-org-faces)
