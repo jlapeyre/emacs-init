@@ -16,6 +16,11 @@
 (setq use-package-always-defer t)
 (setq use-package-verbose t)
 
+;; Set global keys with `bind-key' (and use-package's :bind, which uses it)
+;; rather than `global-set-key': it records them, and
+;; M-x describe-personal-keybindings lists them with what each key did before.
+(require 'bind-key)
+
 ;; Put files written by packages in var/ and etc/ rather than the top level
 ;; of user-emacs-directory. Load before anything that reads those paths.
 ;; noerror: on first startup it is not yet installed.
@@ -39,8 +44,8 @@
 (let ((bench t))
   (when (and bench (require 'benchmark-init nil t))
     (add-hook 'after-init-hook #'benchmark-init/deactivate)
-    (global-set-key (kbd "C-c B") #'benchmark-init/show-durations-tabulated)
-    (global-set-key (kbd "C-c C") #'benchmark-init/show-durations-tree)))
+    (bind-key "C-c B" #'benchmark-init/show-durations-tabulated)
+    (bind-key "C-c C" #'benchmark-init/show-durations-tree)))
 
 (add-hook 'emacs-startup-hook
           (lambda () (message "Total: %.3fs  Init: %s"

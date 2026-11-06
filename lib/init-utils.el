@@ -10,7 +10,7 @@
 With a prefix argument, also insert the time, like 2026-11-05 14:30."
   (interactive "*P")
   (insert (format-time-string (if with-time "%F %R" "%F"))))
-(global-set-key (kbd "C-c d") #'insert-date)
+(bind-key "C-c d" #'insert-date)
 
 ;;;* Sorting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -55,7 +55,7 @@ With a prefix argument, also insert the time, like 2026-11-05 14:30."
   "Insert the primary selection at point."
   (interactive)
   (insert (gui-get-selection)))
-(global-set-key (kbd "C-c y") 'paste-primary-selection)
+(bind-key "C-c y" #'paste-primary-selection)
 
 ;;;* Exit without asking about running processes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

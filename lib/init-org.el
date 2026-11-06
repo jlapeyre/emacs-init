@@ -64,14 +64,18 @@
 (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
 ;;(global-set-key (kbd "C-c a") 'org-capture)  ;; this interferes with tag search commands
-(global-set-key (kbd "C-c z") 'org-capture)
-(global-set-key (kbd "<f12>") 'org-agenda)
+(bind-key "C-c z" #'org-capture)
+(bind-key "<f12>" #'org-agenda)
 ;; switch among org mode buffers
-(global-set-key "\C-cb" 'org-switchb)
-(global-set-key (kbd "<S-f12>")
-                (lambda () (interactive) (find-file "~/git/org/todo.org")))
-(global-set-key (kbd "C-<f12>")
-                (lambda () (interactive) (find-file "~/git/org/physprojects.org")))
+(bind-key "C-c b" #'org-switchb)
+(defun my/find-todo-org ()
+  (interactive)
+  (find-file "~/git/org/todo.org"))
+(bind-key "<S-f12>" #'my/find-todo-org)
+(defun my/find-physprojects-org ()
+  (interactive)
+  (find-file "~/git/org/physprojects.org"))
+(bind-key "C-<f12>" #'my/find-physprojects-org)
 
 ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
 ;; Why does this not work ! Often, these disappear, or several are missing
@@ -93,12 +97,12 @@
 
 ;; Go to clocked item
 ;; overwrites full screen frame
-(global-set-key (kbd "<f11>") 'org-clock-goto)
+(bind-key "<f11>" #'org-clock-goto)
 
 (setq org-clock-out-remove-zero-time-clocks t)
 
 ;; Clock in an item
-(global-set-key (kbd "C-<f11>") 'org-clock-in)
+(bind-key "C-<f11>" #'org-clock-in)
 
 ;; go to beginning and end, except for headline stars
 (setq org-special-ctrl-a/e t)
@@ -139,7 +143,7 @@
 ;; Be careful about what this means. I must first create the ID
 ;; with C-c l. Then C-c C-l will use this ID when creating a link
 ;; Store the link
-(global-set-key "\C-cl" 'org-store-link)
+(bind-key "C-c l" #'org-store-link)
 ;; use the ID when storing
 (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 

@@ -58,7 +58,7 @@
            (equal (selected-window) (next-window)))
       (winner-undo)
     (delete-other-windows)))
-(global-set-key (kbd "C-x 1") #'toggle-delete-other-windows)
+(bind-key "C-x 1" #'toggle-delete-other-windows)
 
 ;; (add-to-list 'treesit-language-source-alist
 ;;              '(typst "https://github.com/uben0/tree-sitter-typst"))

@@ -8,7 +8,7 @@
 (setq-default fill-column 92)
 
 ;;;** Comment and uncomment region quickly
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+(bind-key "C-;" #'comment-or-uncomment-region)
 
 ;;;** Show useful info in mode line
 (line-number-mode t)
@@ -26,16 +26,16 @@
                                           "%b"))))
 
 ;;;** Easy to copy region to kill ring. Maybe there is another way to do this
-(global-set-key "\C-c\k" 'copy-region-as-kill)
+(bind-key "C-c k" #'copy-region-as-kill)
 
 ;;;** default binding is apropos-commands
-(global-set-key (kbd "C-h a") 'apropos)
+(bind-key "C-h a" #'apropos)
 
 ;** Change font size easily. In current buffer only
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
+(bind-key "C-+" #'text-scale-increase)
+(bind-key "C--" #'text-scale-decrease)
 
-(global-set-key (kbd "C-:") 'avy-goto-char)
+(bind-key "C-:" #'avy-goto-char)
 
 ;; Split vertically
 (setq split-width-threshold 9999)
@@ -50,25 +50,25 @@
 (setq recentf-auto-cleanup 300)
 (recentf-mode 1)
 
-(global-set-key (kbd "C-c r") 'recentf-open)
+(bind-key "C-c r" #'recentf-open)
 
 ;; Zap upto, but not including character
-(global-set-key (kbd "M-z") 'zap-up-to-char)
+(bind-key "M-z" #'zap-up-to-char)
 
 ;; Better than default dabbrev expansion.
-(global-set-key (kbd "M-/") 'hippie-expand)
+(bind-key "M-/" #'hippie-expand)
 
-(global-set-key (kbd "M-s i") 'isearch-toggle-invisible)
+(bind-key "M-s i" #'isearch-toggle-invisible)
 
 ;;(global-set-key "\C-x\g" 'goto-line)        ;; Removed Nov 2015. Had this binding since early 90's. Maybe we prefer it ?
-(global-set-key (kbd "C-x g") 'goto-line)     ;; No, stay with this binding.
+(bind-key "C-x g" #'goto-line)     ;; No, stay with this binding.
 
 ;; Don't insert tabs in files. Only spaces
 (setq-default indent-tabs-mode nil)
 
 ;; Disable effect of [Ins] key
-(define-key global-map [(insert)] nil)
-(define-key global-map [(control insert)] 'overwrite-mode)
+(bind-key [insert] nil)
+(bind-key [C-insert] #'overwrite-mode)
 
 ;; from better-defaults
 (setq
@@ -82,12 +82,12 @@
  visible-bell t
  ediff-window-setup-function 'ediff-setup-windows-plain)
 
-(global-set-key (kbd "C-a") 'back-to-indentation)
+(bind-key "C-a" #'back-to-indentation)
 
 
 ;; TODO bind to something useful
-(global-set-key (kbd "C-x C-z") nil) ; (was suspend-frame)
-(global-set-key (kbd "C-z") nil) ; (was suspend-frame), maybe still useful in termial emacs
+(bind-key "C-x C-z" nil) ; (was suspend-frame)
+(bind-key "C-z" nil) ; (was suspend-frame), maybe still useful in termial emacs
 
 ;; Theme
 (add-hook 'emacs-startup-hook

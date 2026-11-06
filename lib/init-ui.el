@@ -23,10 +23,10 @@
   :init
   ;; Ctrl + mouse wheel. The wheel event names differ between window
   ;; systems, so use the variables rather than fixed keys.
-  (global-set-key (vector (list 'control mouse-wheel-down-event)) #'zoom-in)
-  (global-set-key (vector (list 'control mouse-wheel-up-event)) #'zoom-out)
+  (bind-key (vector (list 'control mouse-wheel-down-event)) #'zoom-in)
+  (bind-key (vector (list 'control mouse-wheel-up-event)) #'zoom-out)
   ;; Get rid of `mouse-set-font' or `mouse-appearance-menu':
-  (global-set-key [S-down-mouse-1] nil))
+  (bind-key [S-down-mouse-1] nil))
 
 ;; Start up maximized, on any window system.
 (push '(fullscreen . maximized) default-frame-alist)
@@ -37,7 +37,7 @@
 
 ;;;** C-x C-b opens ibuffer in other window.
 ;; default C-x C-b is bound to ibuffer. We change this to open ibuffer in other windowa
-(global-set-key (kbd "C-x C-b") 'ibuffer-other-window)
+(bind-key "C-x C-b" #'ibuffer-other-window)
 (setq ibuffer-default-sorting-mode 'major-mode)
 
 ;;;** ibuffer column widths
