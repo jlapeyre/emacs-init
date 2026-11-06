@@ -26,9 +26,10 @@
 
 ;;(init-load "profile_debug.el")
 
-;;;* Start package manager
-;; The first time we load this file, startup fails. You must do M-x list-packages
-;; Then restart emacs.
+;;;* Package manager
+;; Emacs has already activated the installed packages before this file is
+;; loaded (see early-init.el), so do not call `package-initialize' here.
+;; On a fresh install, run M-x my/ensure-packages, then restart.
 
 (require 'package)
 (setq package-archives '(
@@ -39,10 +40,6 @@
 
 (setq use-package-always-defer t)
 (setq use-package-verbose t)
-
-;; (setq package-enable-at-startup nil)
-;; (setq package-quickstart t)
-(package-initialize)
 
 ;; Put files written by packages in var/ and etc/ rather than the top level
 ;; of user-emacs-directory. Load before anything that reads those paths.
@@ -78,16 +75,13 @@
 (init-load "settings")
 (init-load "init-my-packages.el")
 
-;;;** Install or update required packages automatically
-(when (not package-archive-contents)
-  (package-refresh-contents))
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
-
-;; Same as the loop above, as a command
+;;;** Install missing packages
+;; Not done at startup: it needs the package archive lists, which are slow
+;; to read.
 (defun my/ensure-packages ()
+  "Install any packages in `my-packages' that are not installed."
   (interactive)
+  (package-read-all-archive-contents)
   (unless package-archive-contents (package-refresh-contents))
   (dolist (p my-packages)
     (unless (package-installed-p p) (package-install p))))

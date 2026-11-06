@@ -79,6 +79,18 @@
 ;; move or copy it to my startup files.
 (setq site-run-file nil)
 
+;; Emacs activates packages after early-init.el and before init.el. With
+;; quickstart, it loads one file with all packages' autoloads instead of
+;; one file per package. Emacs rewrites the file after installing or
+;; deleting packages with package.el.
+;; Set this to nil to switch quickstart off. After switching it back on,
+;; run M-x package-quickstart-refresh, since the file may be stale.
+;; The path matches what no-littering sets, which loads too late for this.
+(defvar my/package-quickstart t)
+(when my/package-quickstart
+  (setq package-quickstart t
+        package-quickstart-file (locate-user-emacs-file "var/package-quickstart.el")))
+
 (defun init-load (name)
   (let* ((file (locate-user-emacs-file (format "lib/%s" name)))
          (t0 (current-time)))
