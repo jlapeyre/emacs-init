@@ -48,7 +48,11 @@
 (setq large-file-warning-threshold 100000000)
 
 (setq recentf-max-saved-items 200)
-;; ido-use-virtual-buffers used to turn this on implicitly.
+;; By default, turning on recentf-mode checks that every file in the saved
+;; list still exists. Do that check after 5 minutes of idle time instead,
+;; to keep it out of startup. The list itself is still loaded at startup.
+;; Must be set before recentf-mode is turned on.
+(setq recentf-auto-cleanup 300)
 (recentf-mode 1)
 
 (global-set-key (kbd "C-c r") 'recentf-open)
