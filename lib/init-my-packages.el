@@ -13,6 +13,7 @@
                       browse-at-remote
                       calfw
                       calfw-org
+                      consult
                       cargo-mode
                       eat
                       flycheck-rust
@@ -47,9 +48,6 @@
                       julia-repl
                       jupyter
                       magit
-                      helm
-                      helm-bibtex
-                      helm-descbinds
                       helpful
                       ebib
                       lua-mode
