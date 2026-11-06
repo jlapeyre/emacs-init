@@ -4,7 +4,7 @@
 
 ;; create the list for font-lock.
 ;; each category of keyword is given a particular face
-(setq openqasm3-font-lock-keywords
+(defvar openqasm3-font-lock-keywords
       (let* (
              ;; define several category of keywords
              (x-keywords '("break" "continue" "else" "for" "if" "return" "while" "const" "reset" "measure"

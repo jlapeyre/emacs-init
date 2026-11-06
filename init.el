@@ -248,7 +248,7 @@
 
 ;; I am using pdf-tools. So opening pdf's in emacs is nice.
 ;; viking is lightweight for viewing gps tracks
-(setq gpx-viewer (getenv "GPX_VIEWER"))
+(defvar my/gpx-viewer (getenv "GPX_VIEWER"))
 
 ;; On macOS the default uses `open', which goes to the system default browser.
 (unless (eq system-type 'darwin)

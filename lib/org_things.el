@@ -25,7 +25,7 @@
  ("\\.x?html?\\'" . default)
  ("\\.pdf\\'" . emacs)
  ("\\.pptx\\'" . "libreoffice %s")
- ("\\.gpx\\'" . (start-process "gpx-viewer" nil gpx-viewer file))))
+ ("\\.gpx\\'" . (start-process "gpx-viewer" nil my/gpx-viewer file))))
 
 (setq org-directory "~/git/org")
 
