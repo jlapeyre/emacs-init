@@ -103,6 +103,25 @@
                          "~/Library/Mathematica/Applications"
                        "~/.Mathematica/Applications")))
 
+;; .m files open in wolfram-mode (above), except files that start like
+;; MATLAB code: a % comment, function or classdef. `magic-mode-alist' is
+;; checked before `auto-mode-alist'. matlab-mode's autoloads add a rule
+;; there that claims every non-empty .m file that is not Objective-C,
+;; including Mathematica files, so replace it. Loading matlab-mode adds
+;; the rule again, so replace it then too.
+(defun my/matlab-file-p ()
+  (and buffer-file-name
+       (string-match-p "\\.m\\'" buffer-file-name)
+       (looking-at-p "[[:space:]]*\\(%\\|function\\_>\\|classdef\\_>\\)")))
+(defun my/replace-matlab-magic-mode-rule ()
+  (setq magic-mode-alist
+        (cons '(my/matlab-file-p . matlab-mode)
+              (delete '(my/matlab-file-p . matlab-mode)
+                      (delete '(matlab-is-matlab-file . matlab-mode) magic-mode-alist)))))
+(my/replace-matlab-magic-mode-rule)
+(with-eval-after-load 'matlab-is-matlab-file
+  (my/replace-matlab-magic-mode-rule))
+
 
 (use-package yaml-ts-mode
   :ensure nil ; built-in in Emacs 29+
