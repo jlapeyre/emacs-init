@@ -59,8 +59,6 @@
                       benchmark-init
                       bison-mode
                       browse-at-remote
-                      calfw
-                      calfw-org
                       consult
                       cargo-mode
                       eat

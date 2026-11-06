@@ -33,13 +33,6 @@
 
 (setq org-directory "~/git/org")
 
-;; Extra commands for the agenda view
-;; Took for fucking ever to get the category filtering to work. There are a *lot* of false paths and wild goose chases
-;; online regarding this.
-(setq org-agenda-custom-commands
-      '(("n" "Agenda and all TODOs" ((agenda "") (alltodo "")))
-        ("c" "calfw, calendar" my/calfw-open-calendar)))
-
 (setq org-use-speed-commands t)
 
 ;; exact search and text search do not seem to work
@@ -171,37 +164,6 @@
   (org-clock-persistence-insinuate)
   (require 'org-id)
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.2))) ; Change 2.0 to your preferred scale.
-
-;; calfw shows a paper-like calendar. calfw has no autoloads, so load it here.
-;; Used by the "c" agenda command above.
-(defun my/calfw-open-calendar (&rest _)
-  (interactive)
-  (require 'calfw)
-  (require 'calfw-org)
-  (calfw-open-calendar-buffer))
-
-;; Calfw Unicode characters for frame
-;; This looks better.
-;; (setq calfw-fchar-junction ?╋
-;;       calfw-fchar-vertical-line ?┃
-;;       calfw-fchar-horizontal-line ?━
-;;       calfw-fchar-left-junction ?┣
-;;       calfw-fchar-right-junction ?┫
-;;       calfw-fchar-top-junction ?┯
-;;       calfw-fchar-top-left-corner ?┏
-;;       calfw-fchar-top-right-corner ?┓)
-
-;; Another look for calfw
-(setq calfw-fchar-junction ?╬
-      calfw-fchar-vertical-line ?║
-      calfw-fchar-horizontal-line ?═
-      calfw-fchar-left-junction ?╠
-      calfw-fchar-right-junction ?╣
-      calfw-fchar-top-junction ?╦
-      calfw-fchar-top-left-corner ?╔
-      calfw-fchar-top-right-corner ?╗)
-
-(setq calfw-org-overwrite-default-keybinding t)
 
 ;; Copied verbatim from Bernt Hansen's web page
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol

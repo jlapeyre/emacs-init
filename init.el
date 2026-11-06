@@ -26,7 +26,7 @@
 (init-load "init-dired")       ; dired+, icons
 (init-load "init-file-modes")  ; Wolfram/MATLAB, YAML, Markdown, gnuplot, OpenQASM, Typst
 (init-load "init-tex")         ; AUCTeX, RefTeX
-(init-load "init-org")         ; org, agenda, capture, calfw
+(init-load "init-org")         ; org, agenda, capture
 (init-load "init-julia")
 (init-load "init-python")
 (init-load "init-lsp")
