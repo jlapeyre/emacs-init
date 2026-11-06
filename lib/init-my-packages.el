@@ -1,12 +1,16 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;;** List packages to auto-install
-(defvar my-packages '(
-		      auctex-latexmk
-		      avy
-		      benchmark-init
+;;;** Packages to install
+;; Install any that are missing with M-x package-install-selected-packages
+;; (on a new machine, run M-x package-refresh-contents first).
+;; M-x package-autoremove deletes installed packages that are not in this
+;; list and that no package in it depends on.
+(setq package-selected-packages '(
+                      auctex-latexmk
+                      avy
+                      benchmark-init
                       bison-mode
-		      browse-at-remote
+                      browse-at-remote
                       calfw
                       calfw-org
                       cargo-mode
@@ -19,7 +23,7 @@
                       py-vterm-interaction
                       ess
                       default-text-scale
-		      djvu
+                      djvu
                       gh-md ;; Render github markdown and display in a buffer
                       eimp
                       go-mode
@@ -70,5 +74,4 @@
                       orderless
                       marginalia
                       ;; yaml-mode
-		      )
-  "A list of packages to ensure are installed at launch.")
+                      ))

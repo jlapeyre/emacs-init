@@ -18,7 +18,8 @@
 ;;;* Package manager
 ;; Emacs has already activated the installed packages before this file is
 ;; loaded (see early-init.el), so do not call `package-initialize' here.
-;; On a fresh install, run M-x my/ensure-packages, then restart.
+;; On a fresh install, run M-x package-install-selected-packages, then
+;; restart. The package list is in lib/init-my-packages.el.
 
 (require 'package)
 (setq package-archives '(
@@ -32,13 +33,15 @@
 
 ;; Put files written by packages in var/ and etc/ rather than the top level
 ;; of user-emacs-directory. Load before anything that reads those paths.
-;; noerror: on first startup it is not yet installed (see my-packages).
+;; noerror: on first startup it is not yet installed.
 (require 'no-littering nil t)
 ;; Also put backup (foo~) and auto-save (#foo#) files under var/
 (when (fboundp 'no-littering-theme-backups)
   (no-littering-theme-backups))
 
-;; Prevent package.el from writing package-selected-packages noninteractively.
+;; package-selected-packages is set in lib/init-my-packages.el. Keep
+;; package.el from saving its own copy to the custom file, which would
+;; override that list.
 (with-eval-after-load 'package
   (advice-add 'package--save-selected-packages :override #'ignore))
 
@@ -63,17 +66,6 @@
 
 (init-load "settings")
 (init-load "init-my-packages")
-
-;;;** Install missing packages
-;; Not done at startup: it needs the package archive lists, which are slow
-;; to read.
-(defun my/ensure-packages ()
-  "Install any packages in `my-packages' that are not installed."
-  (interactive)
-  (package-read-all-archive-contents)
-  (unless package-archive-contents (package-refresh-contents))
-  (dolist (p my-packages)
-    (unless (package-installed-p p) (package-install p))))
 
 ;; Cannot put this in settings.el and load in early-init.el. Causes startup error.
 ;; Make code-quoting in info a bit less ugly.
