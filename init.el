@@ -159,6 +159,17 @@
   :ensure t
   :init (vertico-mode))
 
+;; In file name prompts, DEL right after a "/" deletes the whole last
+;; directory; otherwise it deletes one character.
+(use-package vertico-directory
+  :ensure nil ; ships with vertico
+  :after vertico
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word))
+  ;; Typing ~/ or / after a path clears the old part
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
 ;; Type several space-separated patterns; each one narrows further
 (use-package orderless
   :ensure t
