@@ -14,7 +14,6 @@
 (add-to-list 'load-path "~/github/meow_king/typst-ts-mode")
 
 
-;;(init-load "profile_debug.el")
 
 ;;;* Package manager
 ;; Emacs has already activated the installed packages before this file is
@@ -272,9 +271,7 @@
 
 (init-load "auctex_things")
 
-;(init-load "images")
 
-;;(init-load "helm-bibtex")
 
 (init-load "editor")
 
@@ -289,5 +286,3 @@
 
 (setq custom-file  (locate-user-emacs-file (format "lib/%s" ".emacs-custom.el")))
 (init-load ".emacs-custom")
-; (init-load "seldom_used.el")
-;(init-load "nocompile.el")
