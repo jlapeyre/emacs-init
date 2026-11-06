@@ -40,15 +40,9 @@
     (insert (mapconcat #'identity (reverse my/startup-log) "\n") "\n")
     (display-buffer (current-buffer))))
 
-;; Duplicates same perf opt done later.
-;; (defvar centaur--file-name-handler-alist file-name-handler-alist)
-;; (setq file-name-handler-alist nil)
-
 ;; Big performance increase from this
 (setq gc-cons-threshold most-positive-fixnum)
 (setq gc-cons-percentage 0.6)
-(setq file-name-handler-alist-original file-name-handler-alist)
-(setq file-name-handler-alist nil)
 ;; After startup, let gcmh manage GC: collect when idle, with a high
 ;; threshold while busy. Without gcmh, fall back to a moderate threshold,
 ;; since a very large one makes each collection a long pause.
@@ -57,8 +51,21 @@
             (setq gc-cons-percentage 0.15)
             (if (fboundp 'gcmh-mode)
                 (gcmh-mode 1)
-              (setq gc-cons-threshold (* 64 1024 1024)))
-            (setq file-name-handler-alist file-name-handler-alist-original)))
+              (setq gc-cons-threshold (* 64 1024 1024)))))
+
+;; Every file operation checks `file-name-handler-alist' (for compressed
+;; files, TRAMP, etc.), so empty it while loading the init files.
+;; Restore it in `after-init-hook', which runs before the files named on
+;; the command line are visited (`emacs-startup-hook' runs after). Keep any
+;; handlers that packages added in the meantime.
+(defvar my/file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'after-init-hook
+          (lambda ()
+            (setq file-name-handler-alist
+                  (delete-dups (append file-name-handler-alist
+                                       my/file-name-handler-alist-original))))
+          -90)
 
 ;; Following cuts benchmark-init time in half. From about 13ms to 7ms
 ;; PERF: Reduce file-name operations on `load-path'.
