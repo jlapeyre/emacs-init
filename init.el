@@ -31,7 +31,7 @@
 (init-load "init-python")
 (init-load "init-lsp")
 (init-load "init-gptel")
-(init-load "init-tools")       ; vterm, magit, paradox
+(init-load "init-tools")       ; vterm, magit
 (init-load "init-utils")       ; my own commands: insert-date, sorting, ...
 
 ;; Settings are made in code. Anything saved with Customize goes in var/,
