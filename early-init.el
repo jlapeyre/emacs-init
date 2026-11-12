@@ -1,5 +1,7 @@
 ;; early-init.el --- Early initialization  -*- lexical-binding: t -*-
 
+(setq load-no-native t)
+
 (defvar my/t0 (current-time))
 (defvar my/startup-log nil)
 (defun my/mark (what)
