@@ -1,3 +1,4 @@
+
 ;;; init-completion.el --- Minibuffer completion  -*- lexical-binding: t; -*-
 
 ;; Vertical completion list in the minibuffer
@@ -47,3 +48,16 @@
 (use-package consult
   :bind (("M-y" . consult-yank-pop)  ; browse the kill ring
          ("M-s l" . consult-line))) ; lines in this buffer matching input, like occur (M-s o)
+
+;; In-buffer completion popup
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-auto t)          ;; Enable automatic as-you-type completion
+  (corfu-auto-delay 0.2)  ;; Delay in seconds before the popup appears
+  (corfu-auto-prefix 2)   ;; Number of characters typed before triggering
+  (corfu-quit-no-match t) ;; Automatically quit if no match is found
+  :init
+  (global-corfu-mode)
+  ;; Optional: toggle switch matching your old muscle memory
+  :bind (("C-c c" . global-corfu-mode)))
